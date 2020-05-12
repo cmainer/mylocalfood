@@ -1,0 +1,29 @@
+doctype html
+html.h-full.antialiased
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title
+      - if content_for?(:title)
+        = yield :title
+        | \
+      = Jumpstart.config.application_name
+    = csrf_meta_tags
+    = csp_meta_tag
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = render "shared/favicons"
+    = render "shared/payments_dependencies"
+
+    script src="https://kit.fontawesome.com/0e5ab6a736.js"
+    link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet" /
+
+    = yield :head
+  body.bg-gray-100.font-sans.font-normal.leading-normal.h-full.antialiased data-action="#{params[:action]}" data-controller="#{params[:controller]}"
+    .main
+      = render partial: "shared/flash"
+      = render partial: "shared/navbar"
+      .px-3.lg:px-0
+        = yield
+    = render partial: "shared/footer"

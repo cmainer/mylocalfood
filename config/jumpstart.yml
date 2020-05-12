@@ -1,0 +1,13 @@
+--- !ruby/object:Jumpstart::Configuration
+application_name: MyLocalFood
+business_name: MyLocalFood, LLC
+domain: example.com
+support_email: support@mylocalfood.app
+default_from_email: Jumpstart <support@example.com>
+business_address: |-
+  415 W Salem Canal Rd
+  Salem, UT 84653
+background_job_processor: async
+email_provider: ''
+personal_accounts: true
+livereload: false

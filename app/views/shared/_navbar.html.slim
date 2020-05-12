@@ -1,0 +1,57 @@
+- if user_masquerade?
+  .bg-blue-600.text-blue-200.text-sm.text-center.font-brand-semibold.px-4.py-3 role="alert"
+    | You're logged in as
+    b
+      | User ##{current_user.id}
+    | (#{current_user.email})
+    | \#{link_to "Logout", back_masquerade_path(current_user), class: "text-blue-100 hover:no-underline font-semibold underline"}
+nav.flex.items-center.justify-between.flex-wrap.bg-white.border-b.px-4.py-2 data-controller="toggle"
+  .flex.items-center.flex-shrink-0.mr-6
+    = link_to root_path do
+      = render_svg "logo"
+      span.sr-only= Jumpstart.config.application_name
+  .block.lg:hidden
+    button#sidebar-open.flex.px-6.items-center.lg:hidden.text-gray-500.focus:outline-none.focus:text-gray-700 data-action=("click->toggle#toggle touch->toggle#toggle") type="button"
+      svg.fill-current.w-4.h-4 viewbox=("0 0 20 20") xmlns="http://www.w3.org/2000/svg"
+        title Menu
+        path d=("M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z")
+  .w-full.block.flex-grow.hidden.lg:flex.lg:items-center.lg:w-auto data-target="toggle.toggleable"
+    .text-sm.lg:flex-grow
+      = render "shared/left_nav"
+    .text-sm
+      = render "shared/right_nav"
+      - if user_signed_in?
+        .z-10.inline-flex.items-center.align-middle.leading-none.rounded.no-underline.text-gray-700.hover:text-gray-800.hover:bg-white
+          .relative data-controller="dropdown"
+            .inline-block.select-none data-action=("click->dropdown#toggle click@window->dropdown#hide touch->dropdown#toggle touch@window->dropdown#hide") role="button"
+              span.appearance-none.flex.items-center.inline-block.text-gray-700
+                = account_avatar current_account, include_user: true, class: "rounded-full h-8 w-8"
+                svg.h-4.w-4 height="1rem" viewbox=("0 0 20 20") width="1rem" xmlns="http://www.w3.org/2000/svg"
+                  path d=("M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z")
+            .lg:absolute.lg:right-0.mt-2.hidden.z-20 data-target="dropdown.menu"
+              .bg-white.shadow.rounded.border.overflow-hidden
+                = link_to current_account, class: 'border-b text-sm no-underline block px-6 py-3 text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' do
+                  | Signed in as
+                  strong< = current_account.name
+                = link_to 'Profile',  edit_user_registration_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap'
+                = link_to 'Password', account_password_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap'
+                = link_to 'Accounts', user_connected_accounts_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Devise.omniauth_configs.any?
+                = link_to 'Billing',  subscription_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Jumpstart.config.payments_enabled?
+                /!
+                  | <div class="border-t px-6 py-3 text-gray-800 bg-white font-bold text-xs uppercase">Accounts</div
+                / = link_to "Accounts", accounts_path, class: 'border-t text-xs uppercase font-bold text-gray-800 no-underline block px-6 py-3 bg-white hover:bg-gray-300 whitespace-no-wrap'
+                / - current_user.accounts.each do |account|
+                /   = link_to account.name, switch_account_path(account), remote: true, method: :patch, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap'
+                - if current_user.admin?
+                  .border-t.px-6.py-3.text-gray-800.bg-white.font-bold.text-xs.uppercase Admin
+                  = link_to 'Dashboard', admin_root_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false }
+                  = link_to 'Sidekiq', admin_sidekiq_web_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } if defined?(::Sidekiq)
+                - if Rails.env.development?
+                  .border-t.px-6.py-3.text-gray-800.bg-white.font-bold.text-xs.uppercase Development
+                  = link_to 'Jumpstart Config', jumpstart_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false }
+                  = link_to 'Jumpstart Docs', jumpstart.docs_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false }
+                  = link_to 'Letter Opener', letter_opener_web_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false }
+                = link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'no-underline block px-6 py-3 border-t text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap'
+      - else
+        = link_to 'Log In', new_user_session_path, class: 'nav-link'
+        = link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary'

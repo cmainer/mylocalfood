@@ -29,7 +29,7 @@
     <%= yield :head %>
   </head>
 
-  <body class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased">
+  <body data-controller="#{params[:controller]}" data-action="#{params[:action]}" class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased">
     <div class="main">
       <%= render partial: "shared/flash" %>
       <%= render partial: "shared/navbar" %>

@@ -1,3 +1,2 @@
 web: bundle exec rails s
 webpack: bin/webpack-dev-server
-# docker: docker-compose -f docker/docker-compose.dev.yml up
