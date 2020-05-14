@@ -69,6 +69,25 @@ class User < ApplicationRecord
   # just when they change it
   before_create :skip_confirmation!
 
+  belongs_to :referred_by, class_name: "User", optional: true
+  has_many :referred_users, class_name: "User", foreign_key: :referred_by_id
+
+  before_create :set_referral_code
+  after_create :complete_referral!
+
   # Validations
   validates :name, presence: true
+  validates :referral_code, uniqueness: true
+
+  def set_referral_code
+    loop do
+      self.referral_code = SecureRandom.hex(6)
+      break unless self.class.exists?(referral_code: referral_code)
+    end
+  end
+
+  def complete_referral!
+    update(referral_completed_at: Time.zone.now)
+    # Add credit to the referred_by user
+  end
 end

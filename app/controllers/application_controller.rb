@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :masquerade_user!
+  before_action :set_referral_cookie
 
   protected
 
@@ -38,6 +39,15 @@ class ApplicationController < ActionController::Base
   def require_current_account_admin
     unless current_account_admin?
       redirect_to root_path, alert: "You must be an admin to do that."
+    end
+  end
+
+  def set_referral_cookie
+    if params[:ref]
+      cookies[:referral_code] = {
+        value: params[:ref],
+        expires: 30.days.from_now
+      }
     end
   end
 end

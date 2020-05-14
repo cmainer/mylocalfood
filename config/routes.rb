@@ -49,7 +49,11 @@ Rails.application.routes.draw do
       registrations: "users/registrations"
     }
 
-  resources :announcements, only: [:index]
+  authenticated :user do
+    resources :announcements, only: [:index]
+  end
+
+  # resources :announcements, only: [:index]
   resources :api_tokens
   resources :accounts do
     member do

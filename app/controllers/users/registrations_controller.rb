@@ -15,4 +15,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # Jumpstart: Allow user to edit their profile without password
     resource.update_without_password(params)
   end
+
+  def build_resource(hash = {})
+    super
+    if cookies[:referral_code] && referrer = User.find_by(referral_code: cookies[:referral_code])
+      self.resource.referred_by = referrer
+    end
+  end
 end
