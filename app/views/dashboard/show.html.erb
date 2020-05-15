@@ -4,8 +4,9 @@
     <h3 class="mt-4"> We are currently getting ready to launch a new platform that will help anyone who eats food (hopefully that's you) find and support their local food producers.</h3>
 
 
-    <p class="mt-4 mb-4">We want to reward you as you share MyLocalFood with your friends and family. You now have your own unique referral link that can be found on your dashboard. Use this link when sharing MyLocalFood and you will receive credit for anyone who clicks on your link and creates an account. Thanks for your help and we look forward to helping us all support our local food chains.</p>
-    <div class="flex ">
+    <p class="mt-4 mb-4">We want to reward you as you share MyLocalFood with your friends and family. Below is your own unique referral link. Use this link when sharing MyLocalFood and you will receive credit for anyone who clicks on your link and creates an account. Thanks for your help and we look forward to helping us all support our local food chains.</p>
+    <hr>
+    <div class="flex mt-12">
       <div class="flex-1 text-left">
         <p class="mt-2 mb-4">Here is your new referral link: <code><%= root_url(ref: current_user.referral_code)%></code></p>
         <button class="btn btn-primary" data-clipboard-text="<%= root_url(ref: current_user.referral_code) %>">
