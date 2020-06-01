@@ -1,0 +1,33 @@
+#flex-wrapper.flex
+  #searchBar
+  #map
+
+javascript:
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY3RtYWxvbmUxNSIsImEiOiJja2FuZTlsN2sweDJsMnNsb3NoMXRjODU0In0.1D0ATF0bUZMCchyJlgVGPA';
+  var monument = [-77.0353, 38.8895];
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: monument,
+    zoom: 15
+  });
+
+  // create the popup
+  var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+  'Construction on the Washington Monument began in 1848.'
+  );
+
+  // create DOM element for the marker
+  var el = document.createElement('div');
+  el.id = 'marker';
+
+  // create the marker
+  new mapboxgl.Marker(el)
+  .setLngLat(monument)
+  .setPopup(popup) // sets a popup on this marker
+  .addTo(map);
+
+  // var map = new mapboxgl.Map({
+  //   container: 'map',
+  //   style: 'mapbox://styles/mapbox/streets-v11'
+  // });

@@ -1,0 +1,23 @@
+[data-controller="search"]
+  &[data-action="index"]
+    #flex-wrapper
+      height: calc(100vh - 103px)
+
+      #searchBar
+        width: 320px
+
+      #map
+        flex: 1
+
+
+        #marker
+          background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg')
+          background-size: cover
+          width: 50px
+          height: 50px
+          border-radius: 50%
+          cursor: pointer
+
+
+        .mapboxgl-popup
+          max-width: 200px

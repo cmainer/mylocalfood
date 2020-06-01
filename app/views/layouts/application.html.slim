@@ -19,6 +19,9 @@ html.h-full.antialiased
     script src="https://kit.fontawesome.com/0e5ab6a736.js"
     link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet" /
 
+    script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'
+    link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' /
+
     = yield :head
   body.bg-gray-100.font-sans.font-normal.leading-normal.h-full.antialiased data-action="#{params[:action]}" data-controller="#{params[:controller]}"
     .main
